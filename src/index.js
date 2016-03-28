@@ -1,34 +1,40 @@
 'use strict';
 
 import RepoView from 'repo-view'
+import getRepos from 'fetch-repos'
 
-const repos = [
-  {
-    title: "Assignments",
-    updated: "3 days ago",
-    stars: 3,
-    forks: 10
-  },
-  {
-    title: "Gitbook",
-    updated: "4 days ago",
-    stars: 5,
-    forks: 20
-  }
-]
+function closeIssue(id, description) {
+  const token = `d062014c3d3f054981bda6331af835e25588098f`;
+  const headers = new Headers({ "Authorization": `token ${token}` })
+
+  fetch(`https://api.github.com/repos/TIY-TN-FEE-2016-spring/gitbook/issues/${id}`, {
+    method: 'PATCH',
+    headers: headers,
+    body: JSON.stringify({
+      state: 'close',
+      body: description
+    })
+  })
+}
 
 export default function() {
+  // const reqBody = {
+  //   state: `closed`
+  // };
+  //
+  // const str = JSON.stringify(reqBody);
+
+  // console.log("body", reqBody.length, "str", str, str.length)
+  closeIssue(1, "Close from a function")
+  closeIssue(2, "Also closed this one")
+
   const body = document.querySelector(`body`);
 
-  // 1
-  // repos.forEach((repo) => new RepoView(repo, body))
-
-  // 2
-  // new RepoView(repos[0], body);
-  // new RepoView(repos[1], body);
-
-  // 3
-  repos.forEach(function(repo) {
-    new RepoView(repo, body);
-  })
+  // const repos = getRepos();
+  //
+  // console.log("repos", repos);
+  //
+  // repos.forEach(function(repo) {
+  //   new RepoView(repo, body);
+  // })
 }
