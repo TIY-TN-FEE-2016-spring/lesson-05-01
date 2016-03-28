@@ -25,16 +25,24 @@ export default function() {
   // const str = JSON.stringify(reqBody);
 
   // console.log("body", reqBody.length, "str", str, str.length)
-  closeIssue(1, "Close from a function")
-  closeIssue(2, "Also closed this one")
+  // closeIssue(1, "Close from a function")
+  // closeIssue(2, "Also closed this one")
 
   const body = document.querySelector(`body`);
 
-  // const repos = getRepos();
-  //
-  // console.log("repos", repos);
-  //
-  // repos.forEach(function(repo) {
-  //   new RepoView(repo, body);
-  // })
+  const repoPromise = getRepos();
+
+  repoPromise.then(function(data) {
+    data.forEach(function(x) {
+      console.log(x)
+
+      const myRepo = {
+        title: x.name,
+        updated: x.updated_at,
+        stars: x.stargazers_count
+      }
+
+      new RepoView(myRepo, body);
+    })
+  })
 }
